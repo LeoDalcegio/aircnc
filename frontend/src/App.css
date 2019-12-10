@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  background: #000 url('./assets/background.jpg');
+
+  /* faz a imagem cobrir a tela inteira */
+  background-size: cover; 
+
+  /* deixa a fonte mais detalhada */ 
+  -webkit-font-smoothing: antialiased; 
+}
+
+/* foi feito isto pois o input e o button não herdam a fonte padrão do corpo do html */
+body, input, button { 
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+/* =========================================================== */
+
+/* está servindo apenas para centralizar o conteúdo*/
+.container {
+  margin: 80px auto;
+
+  /* se estiver com menos de 450px ele ocupa a largura inteira da tela, se estiver com mais, ocupa 450 */
+  max-width: 450px;
+  width: 100%;
+  display: flex;
+
+  /* faz os itens ficarem em coluna */
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  background: #fff;
+
+  /* para distanciar 50px da logo */
+  margin-top: 50px;
+  border-radius: 4px;
+  padding: 30px;
+}
+
+/* estiliza o primeiro "p" dentro do .content */
+.content > p {
+  font-size: 22px;
+  line-height: 30px;
+  margin-bottom: 30px;
+}
+
+/* mesma coisa do .container, mas dessa vez é para a label, o input e o botão ficarem um a baixo do outro */
+.content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.content form label {
+  font-size: 14px;
+  color: #444;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.content form input {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  height: 45px;
+
+  /* 15px apenas nas laterais */
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.content button.btn {
+  border: 0;
+  border-radius: 2px;
+  width: 100%;
+  height: 42px;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #f05a5b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.content button.btn:hover {
+  background: #e14f50;
+}
