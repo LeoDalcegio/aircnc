@@ -1,5 +1,5 @@
-# AirCnc
- Room booking app created at Omnistack Week 9, copy of AirBnB (AirCnc = "Code and Coffee"), using NodeJS, React.js and React Native
+# AirCnC
+ Room booking app created at Omnistack Week 9, copy of AirBnB (AirCnC = "Code and Coffee"), using NodeJS, React.js and React Native
 
 <h4 align="center">
   ☕ Code and coffee
