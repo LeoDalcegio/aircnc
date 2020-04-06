@@ -1,9 +1,14 @@
 # AirCnC
  Room booking app created at Omnistack Week 9, copy of AirBnB (AirCnC = "Code and Coffee"), using NodeJS, React.js and React Native
 
+<h1 align="center">
+  <img alt="Aircnc" title="logo" src=".github/logo.png" width="250px" />
+</h1>
+
 <h4 align="center">
   ☕ Code and coffee
 </h4>
+
 <p align="center">
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/LeoDalcegio/AirCnc.svg">
 
@@ -11,6 +16,10 @@
 </p>
 
 <br>
+
+<p align="center">
+  <img alt="Frontend" src=".github/aircnc.png" width="100%">
+</p>
 
 ## :rocket: Technologies
 
