@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import api from '../../services/api';
+import socketio from 'socket.io-client';
 import './styles.css';
 
-// para não precisar toda vez que for mandar o usuario para uma outra rota ter que fazer o "history.push" é possivel utilizar-se o "Link"
 import { Link } from 'react-router-dom';
 
 export default function Dashboard(){
 
-    // está sendo inicializado como uma lista vazia
     const [spots, setSpots] = useState([]);
+    const [requests, setRequests] = useState([]);
+    
+    const user_id = localStorage.getItem('user');
 
+    const socket = useMemo(() => socketio('http://localhost:3333', {
+        query: { user_id }
+    }), [user_id]);
 
-    /* está sendo usado para executar uma busca inicial de dados da api logo assim que abrir a pagina, recebe uma função e um "array de dependências", ex: quando alguma var do array sofrer alguma alteração, esta função será executada. Como não tem nenhuma dependência, só quer que execute uma única vez, é deixado um array vazio */ 
+    useEffect(() => {
+        socket.on('booking_request', data => {
+            setRequests([...requests, data]);
+        })
+    }, [requests, socket]);
+
     useEffect(() => {
         async function loadSpots() {
             const user_id = localStorage.getItem('user');
@@ -23,17 +33,40 @@ export default function Dashboard(){
         }
 
         loadSpots();
-    }, []) 
-    return  (
-        <>
-            <ul className="spot-list">
+    }, []);
 
-                {/* percorre uma lista de spots e para cada item da lista, retorna um html */}
+    async function handleAccept(id){
+        await api.post(`/bookings/${id}/approvals`);
+
+        setRequests(requests.filter(request => request._id !== id));
+    }
+
+    async function handleReject(id){
+        await api.post(`/bookings/${id}/rejections`);
+
+        setRequests(requests.filter(request => request._id !== id))
+    }
+
+    return  (
+        <>  
+            <ul className="notifications">
+                {
+                    requests.map(request => (
+                        <li key={request._id}>
+                            <p>
+                                <strong>{request.user.email}</strong> está solicitando uma reserva em <strong>{request.spot.company}</strong> para a data: <strong>{request.date}</strong>
+                            </p>
+
+                            <button onClick={() => handleAccept(request._id)} className="accept">ACEITAR</button>
+                            <button onClick={() => handleReject(request._id)} className="reject">REJEITAR</button>
+                        </li>
+                    ))
+                }
+            </ul>
+
+            <ul className="spot-list">
                 {spots.map(spot => (
-                    
-                    // é necessário usar "key" pois no react após utilizar uma estrutura de repetição, map por ex, é necessário informar no primeiro próximo elemento qual é a "chave" do elemento que foi "repetido", isso faz com que o react encontre mais facilmente o elemento na hora de "fazer CRUD" em elementos da lista
                     <li key={spot._id}>
-                        { /* foi utilizado header e não image para deixar no memso tamanho todas as imagens, bastando apenas colocar como backgroundUrl a imagem */ }
                         <header style={{ backgroundImage: `url(${spot.thumbnail_url})` }}/>
                         <strong>{spot.company}</strong>
                         <span>{spot.price ? `R$${spot.price}/dia` : `GRATUITO`}</span>

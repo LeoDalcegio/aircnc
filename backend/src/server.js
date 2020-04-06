@@ -1,24 +1,40 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const routes = require('./routes');
 const cors = require('cors')
-const app = express();
 const path = require('path');
+const socketio = require('socket.io');
+const http = require('http');
+
+const routes = require('./routes');
+
+const app = express();
+const server = http.Server(app);
+const io = socketio(server);
 
 mongoose.connect('mongodb+srv://omnistack:omnistack@omnistack9-zjsqd.mongodb.net/semana09?retryWrites=true&w=majority',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-// req.query = acessar query params (para filtros)
-// req.params = acessar route params (para edição, delete)
-// req.body = acessar corpo da req
+const connectedUsers = {};
+
+io.on('connection', socket => {
+    const { user_id } = socket.handshake.query;
+
+    connectedUsers[user_id] = socket.id;
+});
+
+app.use((req, res, next) => {
+    req.io = io;
+    req.connectedUsers = connectedUsers;
+
+    return next();
+})
 
 app.use(cors());
 app.use(express.json());
 
-// quando o usuario acessa "/files", usa o express.static, q é uma forma do express aderir-se de arquivos estaticos, como fotos por exemplo, para ele é passado o caminho dos arquivos estaticos
 app.use('/files', express.static(path.resolve(__dirname, '..','uploads'))); 
 app.use(routes);
 
-app.listen(3333);
+server.listen(3333);

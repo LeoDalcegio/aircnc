@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const BookingSchema = new mongoose.Schema({
-    date: String, // alterar para tipo Date
+    date: String,
     approved: Boolean,
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' // referência de qual model é o objeto
+        ref: 'User'
     },
     spot: {
         type: mongoose.Schema.Types.ObjectId, 

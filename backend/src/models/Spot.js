@@ -19,7 +19,7 @@ const SpotSchema = new mongoose.Schema({
 
 // isso não é visto pelo banco, foi feito para retornar junto com a requisição, o caminho das imagens passadas 
 SpotSchema.virtual('thumbnail_url').get(function() {
-    return `http://localhost:3333/files/${this.thumbnail}`
+    return `http://192.168.0.6:3333/files/${this.thumbnail}`
 });
 
 module.exports = mongoose.model('Spot',SpotSchema)
