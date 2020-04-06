@@ -30,3 +30,7 @@ This project was developed with the following technologies:
 ## 💻 Project
 
 Aircnc is a project that connects companies that want to open points and developers that want use a place to exchange ideas with devs, get to know a company and work there for a period.
+
+<p>
+  This project was made for learning purposes and comes from Rocketseat's omnistack week crash course #9
+</p>
